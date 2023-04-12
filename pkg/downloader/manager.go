@@ -668,6 +668,9 @@ func (m *Manager) parallelRepoUpdate(repos []*repo.Entry) error {
 		if err != nil {
 			return err
 		}
+		// Bugfix for cache folders of unmanaged repositories
+		// see https://github.com/helm/helm/pull/11372/files
+		r.CachePath = m.RepositoryCache
 		wg.Add(1)
 		go func(r *repo.ChartRepository) {
 			if _, err := r.DownloadIndexFile(); err != nil {
